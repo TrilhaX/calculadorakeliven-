@@ -5,16 +5,36 @@ function substituicao(input) {
     return input
         .replace(/x/g, "*")
         .replace(/÷/g, "/")
+        .replace(/%/g, "/100")
 }
 
 function updateInput(content) {
     input.value += content;
 }
 
+function  quantityNumbers(string, startChar, startCharIndex) {
+    let str = String(string)
+    if (startCharIndex === undefined) startCharIndex = str.indexOf(startChar);
+
+    const blockedChars = ['+', '-', '*', '/']
+    let i;
+    for (i = startCharIndex+1; !blockedChars.includes(str.charAt(i)) && i < str.length; i++) {}
+    return i-startCharIndex;
+}
+
 function calculate() {
+    let correctedInput = substituicao(input.value);
+    while (correctedInput.includes('√')) {
+        const rootIndex = correctedInput.indexOf('√');
+        const numbersQtd = quantityNumbers(correctedInput, '√', rootIndex);
+
+        correctedInput = correctedInput.substring(0, rootIndex) + 
+        "Math.sqrt(" + correctedInput.substring(rootIndex + 1, rootIndex + numbersQtd) + 
+        ")" + correctedInput.substring(rootIndex + numbersQtd);
+    }
     try {
-        let correctedInput = substituicao(input.value);
-        input.value = parseInt(eval(correctedInput)) || "";
+        const result = new Function('return ' + correctedInput)();
+        input.value = result !== undefined ? result : "";
     } catch {
         input.value = "Error";
     }
@@ -29,7 +49,7 @@ function deleteLastChar() {
 }
 
 buttons.forEach(button => {
-    button.addEventListener("click", function(event) {
+    button.addEventListener("click", function (event) {
         const buttonText = event.target.textContent.trim();
 
         switch (buttonText) {
@@ -49,8 +69,6 @@ buttons.forEach(button => {
     });
 });
 
-function limparDisplay(){
+function limparDisplay() {
     document.getElementById('display').value = ""
 }
-
-substituicao()

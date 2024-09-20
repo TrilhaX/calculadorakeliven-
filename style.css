@@ -11,7 +11,6 @@
 body {
     font-family: "Protest Guerrilla", sans-serif;
     display: flex;
-    
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -91,11 +90,10 @@ body {
 }
 
 .m{
-    background-color: rgb(223, 111, 36);
     color: rgb(255, 255, 255);
     font-weight: bold;
     height: 40px;
-    width: 45px;
+    width: 30px;
     border: none;
     padding: 5px;
     margin: 5px;
@@ -111,7 +109,7 @@ body {
     color: rgb(255, 255, 255);
     font-weight: bold;
     height: 40px;
-    width: 40px;
+    width: 30px;
     border: none;
     padding: 5px;
     margin: 5px;
